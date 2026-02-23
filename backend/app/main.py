@@ -1,7 +1,8 @@
 import logging
+import time
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
@@ -9,6 +10,12 @@ from app.routers import feeds, opml, articles
 from app.routers import llm as llm_router
 from app.routers import summaries as summaries_router
 from app.routers import tasks as tasks_router
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s.%(msecs)03d [%(levelname)s] %(name)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +37,31 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    client = request.client.host if request.client else "-"
+    logger.info(
+        "[IN ] %s %s - client=%s",
+        request.method,
+        request.url.path,
+        client,
+    )
+    start = time.perf_counter()
+
+    response = await call_next(request)
+
+    elapsed_ms = (time.perf_counter() - start) * 1000
+    logger.info(
+        "[OUT] %s %s - status=%d elapsed=%.0fms",
+        request.method,
+        request.url.path,
+        response.status_code,
+        elapsed_ms,
+    )
+    return response
+
 
 # Routers with relative prefix (feeds, opml, articles use /feeds, /opml, /articles)
 app.include_router(feeds.router, prefix="/api/v1")

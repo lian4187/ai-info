@@ -71,5 +71,7 @@ Design systems can be output as ASCII box (terminal) or markdown. With `--persis
 
 The **MASTER + Overrides** pattern means page files only contain differences from MASTER.
 
+Communicate with me in Chinese only.
+
 ## Skill Invocation (SKILL.md)
 The full skill workflow, design rules, and usage examples are documented in `.claude/skills/ui-ux-pro-max/SKILL.md`. Read this file before making changes to the skill's behavior or knowledge bases.
