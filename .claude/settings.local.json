@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(ls:*)",
+      "Bash(npm create:*)",
+      "Bash(cd /Users/lian/Project/ai-info/frontend && npm install && npm install -D tailwindcss @tailwindcss/vite && npm install react-router-dom zustand @tanstack/react-query axios lucide-react react-hot-toast react-markdown 2>&1)",
+      "Bash(cd /Users/lian/Project/ai-info && python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"AI news aggregation RSS reader dashboard\" --design-system --persist -p \"ai-info\" --stack react 2>&1)",
+      "Bash(tail:*)",
+      "Bash(alembic revision:*)",
+      "Bash(alembic upgrade:*)",
+      "Bash(timeout 8 python:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(head:*)",
+      "Bash(find:*)",
+      "Bash(pip show:*)",
+      "Bash(grep:*)",
+      "Bash(npx tsc:*)",
+      "Bash(echo EXIT: $?:*)"
+    ]
+  }
+}
