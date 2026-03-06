@@ -14,29 +14,6 @@ description: "Local RSS reader service integration. Manage RSS subscriptions, br
 
 ## 前置条件
 
-### 启动后端服务
-
-```bash
-cd backend
-
-# 创建虚拟环境（首次）
-python3 -m venv .venv
-source .venv/bin/activate
-
-# 安装依赖（首次）
-pip install -e .
-
-# 执行数据库迁移（首次）
-alembic upgrade head
-
-# 启动服务
-uvicorn app.main:app --reload
-```
-
-服务启动后访问：
-- API: `http://localhost:8000/api/v1`
-- 健康检查: `http://localhost:8000/api/v1/health`
-
 ### 环境变量
 
 | 变量 | 默认值 | 说明 |
