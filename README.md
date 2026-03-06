@@ -46,6 +46,10 @@
 ```bash
 cd backend
 
+# 安装 venv
+python3 -m venv .venv
+source .venv/bin/activate
+
 # Install dependencies / 安装依赖
 pip install -e .
 
