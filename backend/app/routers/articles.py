@@ -7,6 +7,7 @@ and toggle read/star status.
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -36,6 +37,8 @@ async def list_articles(
     is_read: Optional[bool] = Query(default=None, description="Filter by read status"),
     is_starred: Optional[bool] = Query(default=None, description="Filter by starred status"),
     search: Optional[str] = Query(default=None, description="Search substring in article title"),
+    start_time: Optional[datetime] = Query(default=None, description="Filter articles published at or after this time (ISO 8601)"),
+    end_time: Optional[datetime] = Query(default=None, description="Filter articles published before this time (ISO 8601)"),
     page: int = Query(default=1, ge=1, description="1-based page number"),
     page_size: int = Query(default=20, ge=1, le=_MAX_PAGE_SIZE, description="Items per page"),
 ) -> ArticleListResponse:
@@ -45,7 +48,6 @@ async def list_articles(
     Filters are ANDed together.  Results are ordered newest-first by
     `published_at`, with `created_at` as a stable secondary sort.
     """
-    # Base filter conditions.
     conditions = []
     if feed_id is not None:
         conditions.append(Article.feed_id == feed_id)
@@ -54,9 +56,11 @@ async def list_articles(
     if is_starred is not None:
         conditions.append(Article.is_starred.is_(is_starred))
     if search:
-        # Case-insensitive substring match.  For SQLite this is case-insensitive
-        # for ASCII by default; PostgreSQL needs ilike.
         conditions.append(Article.title.ilike(f"%{search}%"))
+    if start_time is not None:
+        conditions.append(Article.published_at >= start_time)
+    if end_time is not None:
+        conditions.append(Article.published_at < end_time)
 
     # Total count query.
     count_stmt = select(func.count(Article.id))

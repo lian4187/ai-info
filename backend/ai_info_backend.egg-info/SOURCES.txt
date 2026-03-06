@@ -11,6 +11,7 @@ app/config.py
 app/database.py
 app/main.py
 app/llm/__init__.py
+app/llm/anthropic_provider.py
 app/llm/base.py
 app/llm/factory.py
 app/llm/gemini_provider.py

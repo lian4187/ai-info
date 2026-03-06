@@ -417,6 +417,8 @@ curl -X DELETE http://localhost:8000/api/v1/feeds/categories/1
 | is_read | bool | 否 | - | 按已读状态筛选 |
 | is_starred | bool | 否 | - | 按收藏状态筛选 |
 | search | string | 否 | - | 搜索标题关键词 |
+| start_time | datetime | 否 | - | 起始时间（ISO 8601），筛选 published_at >= start_time 的文章 |
+| end_time | datetime | 否 | - | 结束时间（ISO 8601），筛选 published_at < end_time 的文章 |
 | page | int | 否 | 1 | 页码 |
 | page_size | int | 否 | 20 | 每页数量（最大 200） |
 
@@ -425,6 +427,8 @@ curl -X DELETE http://localhost:8000/api/v1/feeds/categories/1
 curl "http://localhost:8000/api/v1/articles?page=1&page_size=10"
 curl "http://localhost:8000/api/v1/articles?feed_id=1&is_read=false"
 curl "http://localhost:8000/api/v1/articles?search=AI"
+curl "http://localhost:8000/api/v1/articles?start_time=2026-03-01T00:00:00&end_time=2026-03-06T00:00:00"
+curl "http://localhost:8000/api/v1/articles?start_time=2026-03-01"
 ```
 
 **返回值：**
